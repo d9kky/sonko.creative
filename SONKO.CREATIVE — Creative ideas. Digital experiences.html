@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SONKO.CREATIVE — Creative ideas. Digital experiences.</title>
+<meta name="description" content="SONKO.CREATIVE: graphic design, branding, web design, creative direction and digital projects.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#F5F5F2">
+<meta property="og:title" content="SONKO.CREATIVE">
+<meta property="og:description" content="Creative ideas. Digital experiences.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<style>
+:root{--bg:#F5F5F2;--bg2:#E8E8E8;--ink:#171717;--line:rgba(23,23,23,.1);--glass:rgba(255,255,255,.5);--hi:rgba(255,255,255,.85);--panel:#171717;--orb:#E8E8E8;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171717;--bg2:#292929;--ink:#F5F5F2;--line:rgba(245,245,242,.12);--glass:rgba(245,245,242,.07);--hi:rgba(255,255,255,.18);--panel:#292929;--orb:#292929;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171717;--bg2:#292929;--ink:#F5F5F2;--line:rgba(245,245,242,.12);--glass:rgba(245,245,242,.07);--hi:rgba(255,255,255,.18);--panel:#292929;--orb:#292929;color-scheme:dark}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"SF Pro Display",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.glass{position:relative;overflow:hidden;background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--line);box-shadow:inset 0 1px 0 var(--hi),0 10px 40px rgba(0,0,0,.06);transition:box-shadow .5s}
+.glass::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),var(--hi),transparent 70%)}
+.glass:hover::after{opacity:1}
+.glow:hover{box-shadow:inset 0 1px 0 var(--hi),0 0 0 1px var(--line),0 20px 70px rgba(130,130,130,.3)}
+.tile{background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.mask{display:inline-block;overflow:hidden;vertical-align:top;padding:.08em .03em .1em;margin:-.08em -.03em -.1em}
+.lt{transition:opacity .3s}.lt:hover{opacity:.3}
+.has-cursor,.has-cursor *{cursor:none!important}
+button{font:inherit;color:inherit;border:0;background:none;padding:0}
+a:focus-visible,button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const {motion,AnimatePresence,MotionConfig,useScroll,useTransform,useSpring,useMotionValue}=window.Motion;
+const {useState,useEffect,useRef}=React;
+const html=htm.bind(React.createElement);
+const ease=[.22,1,.36,1];
+const EMAIL='hello@sonko.creative',IG='https://www.instagram.com/madebysonko/';
+const LANGS=[['ru','RU','Русский'],['pl','PL','Polski'],['en','EN','English'],['lv','LV','Latviešu']];
+const D={ru:{},pl:{},lv:{},en:{}};
+[
+['Home','Главная','Start','Sākums'],['About','Обо мне','O mnie','Par mani'],['Works','Работы','Prace','Darbi'],['Contact','Контакты','Kontakt','Kontakti'],
+['Home · Portfolio ’26','Главная · Портфолио ’26','Start · Portfolio ’26','Sākums · Portfolio ’26'],
+['Creative ideas. Digital experiences.','Креативные идеи. Цифровой опыт.','Kreatywne pomysły. Cyfrowe doświadczenia.','Radošas idejas. Digitālā pieredze.'],
+['Explore','Смотреть','Odkrywaj','Izpētīt'],
+['Hello, I’m Sonko.','Привет, я Sonko.','Cześć, jestem Sonko.','Sveiki, es esmu Sonko.'],
+['I design identities, interfaces and ideas that feel quiet, precise and impossible to forget.','Я создаю айдентику, интерфейсы и идеи: тихие, точные и незабываемые.','Projektuję tożsamości, interfejsy i idee: ciche, precyzyjne i niezapomniane.','Veidoju identitātes, saskarnes un idejas: klusas, precīzas un neaizmirstamas.'],
+['Identity','Айдентика','Tożsamość','Identitāte'],['Interface','Интерфейс','Interfejs','Saskarne'],['Motion','Анимация','Ruch','Kustība'],['Direction','Арт-дирекция','Kierunek','Virziens'],
+['Services','Услуги','Usługi','Pakalpojumi'],['What I do.','Чем я занимаюсь.','Czym się zajmuję.','Ar ko es nodarbojos.'],
+['Graphic Design','Графический дизайн','Projektowanie graficzne','Grafiskais dizains'],['Branding','Брендинг','Branding','Brendings'],['Web Design','Веб-дизайн','Projektowanie stron','Tīmekļa dizains'],['Creative Direction','Креативное направление','Kierunek kreatywny','Radošā virzība'],['Digital Projects','Цифровые проекты','Projekty cyfrowe','Digitālie projekti'],
+['Posters, type and visual systems with a clear point of view.','Постеры, шрифты и визуальные системы с чёткой позицией.','Plakaty, typografia i systemy wizualne z wyraźnym punktem widzenia.','Plakāti, tipogrāfija un vizuālās sistēmas ar skaidru skatpunktu.'],
+['Identities that are simple to recognise and hard to copy.','Айдентика, которую легко узнать и сложно повторить.','Identyfikacje łatwe do rozpoznania i trudne do skopiowania.','Identitātes, ko viegli atpazīt un grūti nokopēt.'],
+['Interfaces with rhythm, depth and calm motion.','Интерфейсы с ритмом, глубиной и спокойным движением.','Interfejsy z rytmem, głębią i spokojnym ruchem.','Saskarnes ar ritmu, dziļumu un mierīgu kustību.'],
+['One idea, carried through every touchpoint.','Одна идея, проведённая через каждую точку контакта.','Jedna idea, przeniesiona przez każdy punkt styku.','Viena ideja, kas caurvij katru saskares punktu.'],
+['From concept to a live product, end to end.','От концепции до готового продукта, от начала до конца.','Od koncepcji do działającego produktu, od początku do końca.','No koncepta līdz gatavam produktam, no sākuma līdz beigām.'],
+['Selected Works','Избранные работы','Wybrane prace','Izvēlētie darbi'],['Selected works.','Избранные работы.','Wybrane prace.','Izvēlētie darbi.'],
+['Identity for a quiet architecture studio.','Айдентика для тихой архитектурной студии.','Identyfikacja dla kameralnego studia architektury.','Identitāte mierīgai arhitektūras studijai.'],
+['A calm, glassy storefront experience.','Спокойный стеклянный опыт интернет-витрины.','Spokojne, szklane doświadczenie sklepu online.','Mierīga, stikla veikala pieredze.'],
+['Editorial poster series on everyday objects.','Серия редакционных постеров о предметах повседневности.','Seria plakatów redakcyjnych o przedmiotach codziennych.','Redakcionālu plakātu sērija par ikdienas priekšmetiem.'],
+['A modular logo system built on a single circle.','Модульная система логотипа на основе одного круга.','Modularny system logo oparty na jednym kole.','Moduļāla logotipa sistēma, kas balstīta uz vienu apli.'],
+['An interactive, sound-reactive web experience.','Интерактивный веб-проект, реагирующий на звук.','Interaktywne doświadczenie web reagujące na dźwięk.','Interaktīva tīmekļa pieredze, kas reaģē uz skaņu.'],
+['Art direction for a travel magazine relaunch.','Арт-дирекшн для перезапуска журнала о путешествиях.','Kierownictwo artystyczne relaunchu magazynu podróżniczego.','Mākslinieciskā virzība ceļojumu žurnāla atjaunošanai.'],
+['Start a similar project','Начать похожий проект','Zacznij podobny projekt','Sākt līdzīgu projektu'],['Close','Закрыть','Zamknij','Aizvērt'],
+['Let’s create','Создадим','Stwórzmy','Radīsim'],['something different.','что-то особенное.','coś innego.','kaut ko citādu.'],
+['Start a project','Начать проект','Rozpocznij projekt','Sākt projektu'],['Copied ✓','Скопировано ✓','Skopiowano ✓','Nokopēts ✓'],['Back to top ↑','Наверх ↑','Do góry ↑','Uz augšu ↑'],['All rights reserved.','Все права защищены.','Wszelkie prawa zastrzeżone.','Visas tiesības aizsargātas.']
+].forEach(([k,r,p,l])=>{D.ru[k]=r;D.pl[k]=p;D.lv[k]=l});
+[
+['Создаю визуальные решения, цифровые продукты и дизайн, который запоминается.','I create visual solutions, digital products and design that people remember.','Tworzę rozwiązania wizualne, produkty cyfrowe i design, który zostaje w pamięci.','Veidoju vizuālus risinājumus, digitālos produktus un dizainu, kas paliek atmiņā.'],
+['Графика, айдентика, веб и motion: я собираю всё в одну историю, где каждая деталь стоит на своём месте.','Graphics, identity, web and motion: I bring everything into one story where every detail has its place.','Grafika, identyfikacja, web i motion: łączę wszystko w jedną historię, w której każdy detal ma swoje miejsce.','Grafika, identitāte, tīmeklis un kustība: es savienoju visu vienā stāstā, kur katrai detaļai ir sava vieta.']
+].forEach(([k,e,p,l])=>{D.en[k]=e;D.pl[k]=p;D.lv[k]=l});
+const LangCtx=React.createContext('en');
+const useTr=()=>{const l=React.useContext(LangCtx);return s=>D[l]?.[s]||s};
+const loop=(d=6,o={})=>({repeat:Infinity,ease:'easeInOut',duration:d,...o});
+const glow=e=>{const r=e.currentTarget.getBoundingClientRect();e.currentTarget.style.setProperty('--mx',e.clientX-r.left+'px');e.currentTarget.style.setProperty('--my',e.clientY-r.top+'px')};
+const go=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+
+/* Animated letters */
+const L=({text,delay=0,view})=>{const ws=text.split(' ');return ws.map((w,wi)=>html`<span key=${wi} className="mask">${[...w].map((c,i)=>{
+  const a={y:0,rotate:0,transition:{duration:1,ease,delay:delay+(wi*4+i)*.035}};
+  return html`<${motion.span} key=${i} className="inline-block lt" initial=${{y:'115%',rotate:8}} ...${view?{whileInView:a,viewport:{once:true}}:{animate:a}}>${c}<//>`})}${wi<ws.length-1?'\u00a0':''}</span>`)};
+
+/* Magnetic wrapper */
+function Mag({children,s=.35}){
+  const x=useMotionValue(0),y=useMotionValue(0),sx=useSpring(x,{stiffness:200,damping:15}),sy=useSpring(y,{stiffness:200,damping:15});
+  return html`<${motion.div} className="inline-block" style=${{x:sx,y:sy}}
+    onPointerMove=${e=>{const r=e.currentTarget.getBoundingClientRect();x.set((e.clientX-r.left-r.width/2)*s);y.set((e.clientY-r.top-r.height/2)*s)}}
+    onPointerLeave=${()=>{x.set(0);y.set(0)}}>${children}<//>`}
+
+const Btn=({children,href,onClick,dark})=>html`<${Mag}><${href?'a':'button'} href=${href} onClick=${onClick} onPointerMove=${glow}
+  className="glass glow inline-flex items-center gap-3 rounded-full px-7 py-4 text-[15px] font-medium"
+  style=${dark?{background:'var(--ink)',color:'var(--bg)'}:{}}>${children}<span aria-hidden="true">↗</span><//><//>`;
+
+/* Desktop cursor */
+function Cursor(){
+  const x=useMotionValue(-99),y=useMotionValue(-99),sx=useSpring(x,{stiffness:450,damping:38}),sy=useSpring(y,{stiffness:450,damping:38});
+  const [big,setBig]=useState(false),[on,setOn]=useState(false);
+  useEffect(()=>{
+    if(!matchMedia('(pointer:fine)').matches)return;
+    setOn(true);document.documentElement.classList.add('has-cursor');
+    const m=e=>{x.set(e.clientX);y.set(e.clientY);setBig(!!e.target.closest('a,button,[role=button]'))};
+    addEventListener('pointermove',m);
+    return()=>{removeEventListener('pointermove',m);document.documentElement.classList.remove('has-cursor')}},[]);
+  if(!on)return null;
+  return html`<div aria-hidden="true">
+    <${motion.div} className="fixed left-0 top-0 z-[100] pointer-events-none rounded-full" style=${{x,y,width:6,height:6,marginLeft:-3,marginTop:-3,background:'var(--ink)'}}/>
+    <${motion.div} className="fixed left-0 top-0 z-[99] pointer-events-none rounded-full" animate=${{scale:big?1.7:1}} style=${{x:sx,y:sy,width:40,height:40,marginLeft:-20,marginTop:-20,border:'1px solid var(--ink)',background:big?'var(--glass)':'transparent',backdropFilter:big?'blur(4px)':'none'}}/>
+  </div>`}
+
+/* Drifting background orbs */
+const Bg=()=>html`<div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">${[['5%','8%',420,0],['62%','42%',520,6],['25%','72%',360,12]].map(([l,t,s,d],i)=>html`<${motion.div} key=${i} className="absolute rounded-full" style=${{left:l,top:t,width:s,height:s,background:'var(--orb)',filter:'blur(70px)',opacity:.85}} animate=${{x:[0,60,-40,0],y:[0,-50,40,0]}} transition=${loop(22+d)}/>`)}</div>`;
+
+/* Language switcher */
+function LangSwitch({lang,setLang}){
+  const [open,setOpen]=useState(false),ref=useRef();
+  useEffect(()=>{const f=e=>{if(ref.current&&!ref.current.contains(e.target))setOpen(false)},k=e=>e.key==='Escape'&&setOpen(false);addEventListener('pointerdown',f);addEventListener('keydown',k);return()=>{removeEventListener('pointerdown',f);removeEventListener('keydown',k)}},[]);
+  return html`<${motion.div} ref=${ref} className="fixed z-50" style=${{top:'calc(env(safe-area-inset-top,0px) + 12px)',right:12}} initial=${{y:-80,opacity:0}} animate=${{y:0,opacity:1}} transition=${{delay:1.4,duration:.9,ease}}>
+    <button onClick=${()=>setOpen(!open)} onPointerMove=${glow} aria-haspopup="listbox" aria-expanded=${open} aria-label="Language" className="glass glow rounded-full px-4 py-[11px] text-[13px] font-semibold flex items-center gap-1.5">${LANGS.find(l=>l[0]===lang)[1]}<span className="text-[9px] opacity-60">▾</span></button>
+    <${AnimatePresence}>${open&&html`<${motion.ul} role="listbox" initial=${{opacity:0,y:-8,scale:.96}} animate=${{opacity:1,y:0,scale:1}} exit=${{opacity:0,y:-8,scale:.96}} transition=${{duration:.25,ease}} className="glass w-40 rounded-3xl p-1.5 m-0 list-none" style=${{position:'absolute',right:0,top:'100%',marginTop:8}}>${LANGS.map(([c,s,n])=>html`<li key=${c}><button role="option" aria-selected=${c===lang} onClick=${()=>{setLang(c);setOpen(false)}} className="w-full flex items-center justify-between rounded-2xl px-3.5 py-2.5 text-[14px] text-left" style=${c===lang?{background:'var(--ink)',color:'var(--bg)'}:{}}><span>${n}</span><span className="text-[11px] opacity-60">${s}</span></button></li>`)}<//>`}<//>
+  <//>`}
+
+/* Navigation */
+const NAV=[['Home','home'],['About','about'],['Works','works'],['Contact','contact']];
+function Nav({active}){const tr=useTr();
+  const [s,setS]=useState(false);
+  useEffect(()=>{const f=()=>setS(scrollY>40);f();addEventListener('scroll',f,{passive:true});return()=>removeEventListener('scroll',f)},[]);
+  return html`<${motion.header} className="fixed left-0 right-0 z-50 flex justify-center px-3" style=${{top:'calc(env(safe-area-inset-top,0px) + 12px)'}} initial=${{y:-80,opacity:0}} animate=${{y:0,opacity:1}} transition=${{delay:1.3,duration:.9,ease}}>
+    <${motion.nav} animate=${{scale:s?.95:1}} transition=${{duration:.5,ease}} className="glass rounded-full flex items-center gap-1 p-1.5 pl-4 sm:pl-5" style=${{boxShadow:s?'inset 0 1px 0 var(--hi),0 14px 50px rgba(0,0,0,.14)':undefined}}>
+      <button onClick=${()=>go('home')} className="mr-2 text-[13px] font-semibold tracking-tight" aria-label="SONKO.CREATIVE home"><span className="hidden sm:inline">SONKO.CREATIVE</span><span className="sm:hidden">S.C</span></button>
+      ${NAV.map(([n,id])=>html`<button key=${id} onClick=${()=>go(id)} className="relative px-2.5 sm:px-4 py-2 text-[13px] font-medium rounded-full" style=${{color:active===id?'var(--bg)':'inherit'}}>
+        ${active===id&&html`<${motion.span} layoutId="pill" className="absolute inset-0 rounded-full" style=${{background:'var(--ink)'}} transition=${{type:'spring',stiffness:380,damping:32}}/>`}
+        <span className="relative">${tr(n)}</span></button>`)}
+    <//><//>`}
+
+/* Hero */
+function Hero(){const tr=useTr();
+  const {scrollY}=useScroll();
+  const y=useTransform(scrollY,[0,700],[0,160]),o=useTransform(scrollY,[0,520],[1,0]),sc=useTransform(scrollY,[0,700],[1,.9]);
+  const mx=useMotionValue(0),my=useMotionValue(0),lx=useSpring(mx,{stiffness:40,damping:14}),ly=useSpring(my,{stiffness:40,damping:14});
+  const fade=d=>({initial:{opacity:0,y:24},animate:{opacity:1,y:0},transition:{duration:1,ease,delay:d}});
+  return html`<section id="home" className="relative min-h-[100svh] flex items-center justify-center px-5 overflow-hidden"
+    onPointerMove=${e=>{mx.set((e.clientX-innerWidth/2)*.45);my.set((e.clientY-innerHeight/2)*.35)}}>
+    <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" aria-hidden="true">
+      <${motion.div} style=${{x:lx,y:ly}}><${motion.div} className="rounded-full w-[150px] h-[150px] md:w-[220px] md:h-[220px]" style=${{backdropFilter:'blur(7px) saturate(190%)',WebkitBackdropFilter:'blur(7px) saturate(190%)',border:'1px solid var(--line)',background:'var(--glass)',boxShadow:'inset 0 2px 0 var(--hi),inset 0 -14px 30px rgba(0,0,0,.05),0 20px 60px rgba(0,0,0,.1)'}} animate=${{y:[0,-18,0],scale:[1,1.05,1]}} transition=${loop(7)}/><//>
+    </div>
+    <${motion.div} style=${{y,opacity:o,scale:sc}} className="relative text-center">
+      <${motion.p} ...${fade(.2)} className="text-[13px] opacity-50 mb-6">${tr('Home · Portfolio ’26')}<//>
+      <h1 className="font-bold leading-[.88] tracking-[-0.055em]" style=${{fontSize:'clamp(3.2rem,15.5vw,13rem)'}} aria-label="SONKO.CREATIVE">
+        <div><${L} text="SONKO."/></div><div><${L} text="CREATIVE" delay=${.35}/></div></h1>
+      <${motion.p} ...${fade(1.3)} className="mt-8 font-medium" style=${{fontSize:'clamp(1.1rem,2.2vw,1.6rem)'}}>${tr('Creative ideas. Digital experiences.')}<//>
+      <${motion.p} ...${fade(1.5)} className="mt-3 mx-auto max-w-md opacity-60 text-[15px] leading-relaxed">${tr('Создаю визуальные решения, цифровые продукты и дизайн, который запоминается.')}<//>
+      <${motion.div} ...${fade(1.7)} className="mt-10"><${Btn} onClick=${()=>go('about')}>${tr('Explore')}<//><//>
+    <//>
+    <div className="absolute bottom-8 left-1/2 -ml-px h-12 w-px overflow-hidden" style=${{background:'var(--line)'}} aria-hidden="true"><${motion.div} className="w-full h-full origin-top" style=${{background:'var(--ink)'}} animate=${{scaleY:[0,1,0],y:['0%','0%','100%']}} transition=${loop(2.4)}/></div>
+  </section>`}
+
+/* About */
+const STATEMENT='I design identities, interfaces and ideas that feel quiet, precise and impossible to forget.';
+const Word=({w,i,n,p})=>{const o=useTransform(p,[i/n,(i+1)/n],[.15,1]);return html`<${motion.span} style=${{opacity:o}} className="inline-block mr-[.25em]">${w}<//>`};
+const Head=({n,sub,t})=>{const tr=useTr();return html`<div className="mb-12 md:mb-16"><p className="text-[13px] opacity-50 mb-4">${n} — ${tr(sub)}</p><h2 className="font-bold leading-[.95] tracking-[-0.045em]" style=${{fontSize:'clamp(2.4rem,7vw,6rem)'}}><${L} text=${tr(t)} view/></h2></div>`};
+function About(){const tr=useTr();
+  const ref=useRef(),{scrollYProgress}=useScroll({target:ref,offset:['start 0.85','end 0.5']}),ws=tr(STATEMENT).split(' ');
+  const py=useTransform(scrollYProgress,[0,1],[60,-80]);
+  return html`<section id="about" ref=${ref} className="px-5 md:px-10 py-28 md:py-44 max-w-7xl mx-auto">
+    <${Head} n="02" sub="About" t="Hello, I’m Sonko."/>
+    <div className="grid md:grid-cols-12 gap-12">
+      <p className="md:col-span-8 font-semibold leading-[1.08] tracking-[-0.03em]" style=${{fontSize:'clamp(1.7rem,4.2vw,3.6rem)'}}>${ws.map((w,i)=>html`<${Word} key=${i} w=${w} i=${i} n=${ws.length} p=${scrollYProgress}/>`)}</p>
+      <div className="md:col-span-4 relative min-h-[340px]">
+        <${motion.div} style=${{y:py}} className="absolute right-0 top-0 w-44 h-44 flex items-center justify-center">
+          <${motion.svg} viewBox="0 0 200 200" className="absolute inset-0" animate=${{rotate:360}} transition=${{duration:24,repeat:Infinity,ease:'linear'}} aria-hidden="true"><defs><path id="ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text fontSize="13" letterSpacing="4" fontWeight="500" fill="currentColor"><textPath href="#ring">CREATIVE IDEAS • DIGITAL EXPERIENCES • </textPath></text><//>
+          <div className="glass rounded-full w-16 h-16 flex items-center justify-center font-bold text-xl tracking-tighter">S.</div>
+        <//>
+        ${[['Identity','0%','52%',0],['Interface','38%','72%',1],['Motion','6%','84%',2],['Direction','52%','44%',3]].map(([t,l,tp,d])=>html`<${motion.span} key=${t} className="glass rounded-full px-4 py-2 text-[13px] font-medium absolute" style=${{left:l,top:tp,position:'absolute'}} animate=${{y:[0,-12,0]}} transition=${loop(5+d,{delay:d*.5})}>${tr(t)}<//>`)}
+      </div>
+    </div>
+    <p className="mt-16 max-w-xl opacity-60 text-[17px] leading-relaxed">${tr('Графика, айдентика, веб и motion: я собираю всё в одну историю, где каждая деталь стоит на своём месте.')}</p>
+  </section>`}
+
+/* Services */
+const SV=[['Graphic Design','Posters, type and visual systems with a clear point of view.','lg:col-span-3','shapes'],['Branding','Identities that are simple to recognise and hard to copy.','lg:col-span-3','rings'],['Web Design','Interfaces with rhythm, depth and calm motion.','lg:col-span-2','browser'],['Creative Direction','One idea, carried through every touchpoint.','lg:col-span-2','orbit'],['Digital Projects','From concept to a live product, end to end.','lg:col-span-2','layers']];
+function Art({k}){
+  const base='absolute inset-0 flex items-center justify-center',dot={background:'var(--ink)'};
+  if(k==='shapes')return html`<div className=${base}>${[0,1,2].map(i=>html`<${motion.div} key=${i} className="absolute w-24 h-24 tile" style=${{x:(i-1)*40}} animate=${{borderRadius:['50%','18%','50%'],rotate:[0,90*(i+1),0]}} transition=${loop(5+i)}/>`)}</div>`;
+  if(k==='rings')return html`<div className=${base}>${[0,1,2].map(i=>html`<${motion.div} key=${i} className="absolute rounded-full tile" style=${{width:64+i*52,height:64+i*52}} animate=${{scale:[1,1.12,1],opacity:[.9,.4,.9]}} transition=${loop(3,{delay:i*.4})}/>`)}<span className="relative text-4xl font-bold tracking-tighter">S.</span></div>`;
+  if(k==='browser')return html`<div className=${base}><div className="tile rounded-2xl w-48 h-32 p-3"><div className="flex gap-1 mb-3">${[0,1,2].map(i=>html`<i key=${i} className="w-1.5 h-1.5 rounded-full" style=${{...dot,opacity:.3}}/>`)}</div>${[100,70,85].map((w,i)=>html`<${motion.div} key=${i} className="h-2 rounded-full mb-2 origin-left" style=${{width:w+'%',...dot,opacity:.75}} animate=${{scaleX:[.1,1,1,.1]}} transition=${loop(4,{delay:i*.3,times:[0,.4,.8,1]})}/>`)}</div></div>`;
+  if(k==='orbit')return html`<div className=${base}><div className="absolute w-28 h-28 rounded-full tile"/><div className="w-3 h-3 rounded-full" style=${dot}/><${motion.div} className="absolute w-28 h-28" animate=${{rotate:360}} transition=${{duration:8,repeat:Infinity,ease:'linear'}}><i className="absolute -top-1.5 left-1/2 -ml-1.5 w-3 h-3 rounded-full" style=${dot}/><//></div>`;
+  return html`<div className=${base}>${[0,1,2].map(i=>html`<${motion.div} key=${i} className="absolute w-32 h-20 rounded-2xl tile" style=${{rotateX:55,rotateZ:-30,transformPerspective:600}} animate=${{y:[i*-14+8,i*-14-6,i*-14+8]}} transition=${loop(4,{delay:i*.3})}/>`)}</div>`}
+function Services(){const tr=useTr();
+  return html`<section id="services" className="px-5 md:px-10 py-24 md:py-40 max-w-7xl mx-auto">
+    <${Head} n="03" sub="Services" t="What I do."/>
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">${SV.map(([t,d,sp,k],i)=>html`<${motion.article} key=${t} initial=${{opacity:0,y:60}} whileInView=${{opacity:1,y:0}} viewport=${{once:true,margin:'-60px'}} transition=${{duration:.9,ease,delay:(i%3)*.1}} whileHover=${{y:-8}} onPointerMove=${glow} className=${'glass glow rounded-[2rem] p-6 flex flex-col '+sp}>
+      <div className="relative h-44 md:h-52"><${Art} k=${k}/></div>
+      <div className="pt-6"><h3 className="text-2xl font-semibold tracking-tight">${tr(t)}</h3><p className="mt-2 text-[15px] opacity-60 max-w-xs">${tr(d)}</p></div><//>`)}</div>
+  </section>`}
+
+/* Works */
+function P({k}){
+  const S={
+    type:['#F5F5F2',html`<span style=${{fontSize:'min(30vw,11rem)',fontWeight:800,letterSpacing:'-.07em',color:'#171717'}}>Aa</span>`],
+    ui:['#E8E8E8',html`<div style=${{width:120,height:230,borderRadius:28,background:'#171717',padding:9}}><div style=${{height:'100%',borderRadius:20,background:'#F5F5F2',padding:12}}>${[70,100,55,85].map((w,i)=>html`<i key=${i} style=${{display:'block',height:8,width:w+'%',borderRadius:8,background:'#171717',opacity:.8,marginBottom:10}}/>`)}</div></div>`],
+    poster:['#292929',html`<div className="flex items-center"><i style=${{width:150,height:150,borderRadius:'50%',background:'#F5F5F2'}}/><i style=${{width:150,height:150,borderRadius:'50%',border:'2px solid #F5F5F2',marginLeft:-60}}/></div>`],
+    logo:['#F5F5F2',html`<div className="grid grid-cols-2 gap-2">${['100% 0 0 0','0 100% 0 0','0 0 0 100%','0 0 100% 0'].map(r=>html`<i key=${r} style=${{width:64,height:64,background:'#171717',borderRadius:r}}/>`)}</div>`],
+    wave:['#1f1f1f',html`<div className="flex items-center gap-1.5" style=${{height:140}}>${Array.from({length:15},(_,i)=>html`<${motion.i} key=${i} className="w-2 rounded-full" style=${{background:'#F5F5F2'}} animate=${{height:[20,110,20]}} transition=${loop(2.4,{delay:i*.12})}/>`)}</div>`],
+    grid:['#E8E8E8',html`<div className="grid grid-cols-3 gap-3">${Array.from({length:9},(_,i)=>html`<i key=${i} style=${{width:44,height:44,background:'#171717',borderRadius:i%2?'50%':8}}/>`)}</div>`]
+  };
+  return html`<div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-105" style=${{background:S[k][0]}}>${S[k][1]}</div>`}
+const WK=[['Monolith','Branding','2026','Identity for a quiet architecture studio.','type','lg:col-span-7'],['Halo','Web Design','2026','A calm, glassy storefront experience.','ui','lg:col-span-5'],['Fieldnotes','Graphic Design','2025','Editorial poster series on everyday objects.','poster','lg:col-span-5'],['Nord Mark','Branding','2025','A modular logo system built on a single circle.','logo','lg:col-span-7'],['Pulse','Digital Projects','2025','An interactive, sound-reactive web experience.','wave','lg:col-span-7'],['Atlas','Creative Direction','2024','Art direction for a travel magazine relaunch.','grid','lg:col-span-5']];
+function Works(){const tr=useTr();
+  const [sel,setSel]=useState(null),close=()=>setSel(null);
+  useEffect(()=>{document.body.style.overflow=sel!=null?'hidden':'';const k=e=>e.key==='Escape'&&close();addEventListener('keydown',k);return()=>removeEventListener('keydown',k)},[sel]);
+  const h='h-[300px] md:h-[400px]';
+  return html`<section id="works" className="relative rounded-[2.5rem] md:rounded-[3.5rem] mx-2 md:mx-4 px-5 md:px-10 py-24 md:py-40" style=${{background:'var(--panel)',color:'#F5F5F2'}}>
+    <div className="max-w-7xl mx-auto"><${Head} n="04" sub="Selected Works" t="Selected works."/>
+    <div className="grid gap-4 lg:grid-cols-12">${WK.map(([t,c,y,d,k,sp],i)=>html`<${motion.div} key=${t} initial=${{opacity:0,y:60}} whileInView=${{opacity:1,y:0}} viewport=${{once:true,margin:'-60px'}} transition=${{duration:.9,ease}} className=${'group '+sp}>
+      ${sel===i?html`<div className=${h}/>`:html`<${motion.div} layoutId=${'p'+i} role="button" tabIndex=${0} aria-label=${'Open '+t} onClick=${()=>setSel(i)} onKeyDown=${e=>e.key==='Enter'&&setSel(i)} className=${'relative overflow-hidden rounded-[2rem] cursor-pointer '+h} whileTap=${{scale:.98}}>
+        <${P} k=${k}/>
+        <div className="absolute left-4 right-4 bottom-4 flex items-center justify-between rounded-full px-5 py-3 text-[#171717]" style=${{background:'rgba(245,245,242,.78)',backdropFilter:'blur(18px)',WebkitBackdropFilter:'blur(18px)'}}><span className="font-semibold">${t}</span><span className="text-[13px] opacity-60">${tr(c)} · ${y}</span></div>
+      <//>`}<//>`)}</div></div>
+    <${AnimatePresence}>${sel!=null&&html`<${motion.div} key="m" className="fixed inset-0 z-[60] flex items-center justify-center p-4" initial=${{opacity:0}} animate=${{opacity:1}} exit=${{opacity:0}} onClick=${close} style=${{background:'rgba(23,23,23,.45)',backdropFilter:'blur(14px)',WebkitBackdropFilter:'blur(14px)',color:'var(--ink)'}}>
+      <div className="glass rounded-[2rem] w-full max-w-3xl max-h-[92svh] overflow-auto" style=${{background:'var(--bg)'}} onClick=${e=>e.stopPropagation()}>
+        <${motion.div} layoutId=${'p'+sel} className="relative h-[240px] md:h-[380px] overflow-hidden"><${P} k=${WK[sel][4]}/><//>
+        <div className="p-6 md:p-10"><p className="text-[13px] opacity-50">${tr(WK[sel][1])} · ${WK[sel][2]}</p><h3 className="mt-2 text-4xl font-bold tracking-tight">${WK[sel][0]}</h3><p className="mt-3 max-w-md opacity-60">${tr(WK[sel][3])}</p>
+          <div className="mt-8 flex flex-wrap gap-3"><${Btn} dark onClick=${()=>{close();go('contact')}}>${tr('Start a similar project')}<//><${Btn} onClick=${close}>${tr('Close')}<//></div></div>
+      </div><//>`}<//>
+  </section>`}
+
+/* Contact */
+function Contact(){const tr=useTr();
+  const [c,setC]=useState(false);
+  const copy=()=>{if(!navigator.clipboard){location.href='mailto:'+EMAIL;return}navigator.clipboard.writeText(EMAIL).then(()=>{setC(true);setTimeout(()=>setC(false),1800)}).catch(()=>{location.href='mailto:'+EMAIL})};
+  return html`<section id="contact" className="px-5 md:px-10 pt-32 md:pt-48 pb-10 max-w-6xl mx-auto text-center">
+    <p className="text-[13px] opacity-50 mb-6">05 — ${tr('Contact')}</p>
+    <h2 className="font-bold leading-[.92] tracking-[-0.05em]" style=${{fontSize:'clamp(2.6rem,9vw,8rem)'}}><${L} text=${tr('Let’s create')} view/><br/><${L} text=${tr('something different.')} delay=${.2} view/></h2>
+    <div className="mt-12 flex flex-wrap gap-4 justify-center"><${Btn} dark href=${'mailto:'+EMAIL+'?subject=New%20project'}>${tr('Start a project')}<//><${Btn} onClick=${copy}>${c?tr('Copied ✓'):EMAIL}<//></div>
+    <footer className="mt-32 flex flex-col items-center gap-8 text-[13px]"><${Mag}><a href=${IG} target="_blank" rel="noopener noreferrer" onPointerMove=${glow} aria-label="Instagram @madebysonko" className="glass glow inline-flex items-center gap-2.5 rounded-full px-6 py-3.5 text-[15px] font-medium"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor"/></svg>Instagram<span aria-hidden="true">↗</span></a><//><div className="w-full pt-6 flex flex-wrap items-center justify-between gap-3 opacity-50" style=${{borderTop:'1px solid var(--line)'}}><span>© 2026 SONKO.CREATIVE. ${tr('All rights reserved.')}</span><button onClick=${()=>go('home')}>${tr('Back to top ↑')}</button></div></footer>
+  </section>`}
+
+function App(){
+  const [lang,setLang]=useState(()=>{try{const s=localStorage.getItem('lang');if(s&&D[s])return s}catch(e){}const n=(navigator.language||'en').slice(0,2);return D[n]?n:'en'});
+  useEffect(()=>{document.documentElement.lang=lang;try{localStorage.setItem('lang',lang)}catch(e){}},[lang]);
+  const [active,setA]=useState('home');
+  useEffect(()=>{const ids=['home','about','services','works','contact'];
+    const f=()=>{let c='home';ids.forEach(i=>{const e=document.getElementById(i);if(e&&e.getBoundingClientRect().top<innerHeight*.45)c=i});setA(c==='services'?'about':c)};
+    f();addEventListener('scroll',f,{passive:true});return()=>removeEventListener('scroll',f)},[]);
+  return html`<${LangCtx.Provider} value=${lang}><${MotionConfig} reducedMotion="user"><${Bg}/><${Cursor}/><${Nav} active=${active}/><${LangSwitch} lang=${lang} setLang=${setLang}/><main className="relative z-10"><${Hero}/><${About}/><${Services}/><${Works}/><${Contact}/></main><//><//>`}
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
+</script>
+</body>
+</html>
